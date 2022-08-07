@@ -8,10 +8,10 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/go-chi/chi"
-	"github.com/rs/cors"
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
+	"github.com/go-chi/chi"
+	"github.com/rs/cors"
 )
 
 const defaultPort = "3000"
@@ -21,7 +21,7 @@ func main() {
 	router.Use(cors.New(cors.Options{
 		AllowedOrigins:   []string{"http://localhost:3001"},
 		AllowCredentials: true,
-		AllowedMethods: []string{"GET", "POST", "PUT"},
+		AllowedMethods:   []string{"GET", "POST", "PUT"},
 		Debug:            true,
 	}).Handler)
 
