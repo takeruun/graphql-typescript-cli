@@ -3,38 +3,23 @@ import type { NextPage } from 'next'
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import { useQuery, useMutation, gql } from '@apollo/client';
-
-const GET_TODOS = gql`
-  query GetTodos {
-    todos {
-      id
-      text
-      done
-    }
-  }
-`;
-
-const ADD_TODO = gql`
-  mutation AddTodo($text: String!, $userId: String!) {
-    createTodo(input: {text: $text, userId: $userId}) {
-      text
-    }
-  }
-`;
+import { useGetTodosQuery, useAddTodoMutation, useAddUserMutation } from '@generated/graphql';
 
 const Home: NextPage = () => {
   // query 実装
-  const { loading: queryLoading, error: queryErrror, data: queryData, refetch } = useQuery(GET_TODOS);
+  const { loading: queryLoading, data: queryData, refetch } = useGetTodosQuery();
 
   // mutation 実装
-  const [addTodo, { loading: mutationLoading, error, data: mutationData }] = useMutation(ADD_TODO, {
+  const [addTodo, { loading: userMutationLoading, error, data: userMutationData }] = useAddTodoMutation({
     onCompleted() {
       // mutation実行完了後、query再実行
       refetch();
     }
   });
 
+  const [addUser] = useAddUserMutation();
+
+  const [name, setName] = useState('');
   const [text, setText] = useState('');
 
   return (
@@ -52,18 +37,32 @@ const Home: NextPage = () => {
           className={styles.form}
           onSubmit={e => {
             e.preventDefault();
+            addUser({ variables: { name } });
+            setName('');
+          }}
+        >
+          <input value={name} onChange={e => setName(e.target.value)} />
+          <button type="submit">createUser</button>
+        </form>
+
+        <br />
+
+        <form
+          className={styles.form}
+          onSubmit={e => {
+            e.preventDefault();
             addTodo({ variables: { text, userId: '1' } });
             setText('');
           }}
         >
-          <input value={text} onChange={e => setText(e.target.value)}/>
+          <input value={text} onChange={e => setText(e.target.value)} />
           <button type="submit">createTodo</button>
         </form>
 
-        <br/>
+        <br />
 
-        {!queryLoading &&
-          queryData.todos.map((todo: {id: string, text: string, done: boolean}) => (<li>{todo.text}</li>))
+        {!queryLoading && queryData &&
+          queryData.todos.map((todo) => (<li>{todo.text}</li>))
         }
       </main>
 

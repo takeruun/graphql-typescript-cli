@@ -1,0 +1,13 @@
+query GetTodos {
+    todos {
+    id
+    text
+    done
+  }
+}
+
+mutation AddTodo($text: String!, $userId: String!) {
+  createTodo(input: {text: $text, userId: $userId}) {
+    text
+  }
+}
