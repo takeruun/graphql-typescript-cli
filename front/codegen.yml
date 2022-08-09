@@ -8,7 +8,7 @@ generates:
       - 'typescript-operations'
       - 'typescript-react-apollo'
     config:
-      withHooks: true
+      withHooks: true # Hooksも自動作成
   ./graphql.schema.json:
     plugins:
       - 'introspection'
