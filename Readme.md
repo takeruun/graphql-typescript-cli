@@ -1,25 +1,30 @@
 # 概要
 
-GrapQL サーバー と Next.js クライアントサンプル実装
+GrapQL サーバー と Next.js クライアント
+graphql-codegen　をしようしてスキーマ駆動開発サンプル
 
 ## 使い方
-
-### GrapQL サーバー実装（割愛）
-
-### Next.js クライアント実装
-
-#### query
-
-Query 実装は、`useQuery` を使用
-
+1. 初期化
 ```
-useQuery(query)
+yarn graphql-code-generator init
 ```
 
-Mutation 実装は、`useMutation` を使用
-
+2. もろもろ設定
 ```
-useMutation(query)
+? What type of application are you building? Application built with React
+? Where is your schema?: (path or url) http://localhost:3000/query
+? Where are your operations and fragments?: ./src/graph/*.graphql
+? Pick plugins: TypeScript (required by other typescript plugins), TypeScript Operations (operations and fragments), TypeScript React Apollo (typed
+components and HOCs)
+? Where to write the output: ./src/@generated/graphql.ts
+? Do you want to generate an introspection file? Yes
+? How to name the config file? codegen.yml
+? What script in package.json should run the codegen? graphql-codegen
+```
+3. 自動生成
+スキーマファイル修正後、下記コマンド実行
+```
+yarn graphql-codegen
 ```
 
 # 参考サイト
@@ -27,3 +32,7 @@ useMutation(query)
 Apollo 公式
 
 https://www.apollographql.com/docs/
+
+graphql-codegen 公式
+
+https://www.graphql-code-generator.com/
