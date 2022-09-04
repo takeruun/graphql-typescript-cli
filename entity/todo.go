@@ -2,18 +2,17 @@ package entity
 
 import (
 	model "app/graph/model"
-	"time"
+
+	"gorm.io/gorm"
 )
 
 type Todo struct {
-	ID        uint64 `json:"id" gorm:"primary_key"`
-	Text      string `json:"text"`
-	Done      bool   `json:"done"`
-	UserID    uint64 `json:"userId"`
-	User      *User
-	CreatedAt time.Time  `json:"createdAt"`
-	UpdatedAt time.Time  `json:"updatedAt"`
-	DeletedAt *time.Time `json:"deletedAt"`
+	gorm.Model
+
+	Text   string `json:"text"`
+	Done   bool   `json:"done"`
+	UserID uint64 `json:"userId"`
+	User   *User
 }
 
 func ToModelTodo(t *Todo) *model.Todo {

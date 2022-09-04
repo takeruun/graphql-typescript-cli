@@ -2,21 +2,30 @@ package entity
 
 import (
 	model "app/graph/model"
-	"time"
+
+	"gorm.io/gorm"
 )
 
 type User struct {
-	ID        uint64     `json:"id" gorm:"primary_key"`
-	Name      string     `json:"name"`
-	CreatedAt time.Time  `json:"createdAt"`
-	UpdatedAt time.Time  `json:"updatedAt"`
-	DeletedAt *time.Time `json:"deletedAt"`
+	gorm.Model
+	Name  string `json:"name"`
+	Todos []*Todo
 }
 
 func ToModelUser(u *User) *model.User {
+	var todos []*model.Todo
+	for i := 0; i < len(u.Todos); i++ {
+		todos = append(todos, &model.Todo{
+			ID:   string(rune(u.Todos[i].ID)),
+			Text: u.Todos[i].Text,
+			Done: u.Todos[i].Done,
+		})
+	}
+
 	return &model.User{
-		ID:   string(rune(u.ID)),
-		Name: u.Name,
+		ID:    string(rune(u.ID)),
+		Name:  u.Name,
+		Todos: todos,
 	}
 }
 

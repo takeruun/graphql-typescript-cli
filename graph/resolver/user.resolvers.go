@@ -33,8 +33,8 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 func (r *queryResolver) Users(ctx context.Context) ([]*model.User, error) {
 	var users []*entity.User
 
-	sql := r.DB.Model(&model.User{})
-	result := sql.Find(&users)
+	sql := r.DB.Model(&entity.User{})
+	result := sql.Preload("Todos").Find(&users)
 	if result.Error != nil {
 		return nil, result.Error
 	}
