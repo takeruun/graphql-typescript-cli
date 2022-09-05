@@ -2,6 +2,7 @@ package entity
 
 import (
 	model "app/graph/model"
+	"strconv"
 
 	"gorm.io/gorm"
 )
@@ -17,7 +18,7 @@ type Todo struct {
 
 func ToModelTodo(t *Todo) *model.Todo {
 	return &model.Todo{
-		ID:   string(rune(t.ID)),
+		ID:   strconv.Itoa(int(t.ID)),
 		Text: t.Text,
 		Done: t.Done,
 		User: ToModelUser(t.User),

@@ -5,3 +5,9 @@ type Query {
 type Mutation {
   _empty: String
 }
+
+interface Node {
+  id: ID!
+}
+
+scalar Cursor

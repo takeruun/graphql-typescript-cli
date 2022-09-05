@@ -1,12 +1,27 @@
-type Todo {
+type Todo implements Node {
   id: ID!
   text: String!
   done: Boolean!
   user: User!
 }
 
+"ページングを伴う結果返却用"
+type TodoConnection implements Connection {
+  "ページ情報"
+  pageInfo: PageInfo!
+  "検索結果一覧（カーソル情報を含む）"
+  edges: [TodoEdge!]!
+  "検索結果の全件数"
+  totalCount: Int!
+}
+
+type TodoEdge implements Edge {
+  node: Todo
+  cursor: Cursor!
+}
+
 extend type Query {
-  todos: [Todo!]!
+  todos(input: PageCondition!): TodoConnection!
 }
 
 input NewTodo {

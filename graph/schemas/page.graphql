@@ -1,0 +1,28 @@
+type PageInfo {
+  startCursor: String
+  endCursor: String
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+}
+
+interface Edge {
+  node: Node
+  cursor: Cursor!
+}
+
+interface Connection {
+  pageInfo: PageInfo!
+  edges: [Edge!]!
+  totalCount: Int!
+}
+
+input PageCondition {
+  first: Int
+  after: String
+  last: Int
+  before: String
+  "現在ページNo"
+  pageNo: Int
+  "1ページ表示件数"
+  defautLimit: Int
+}
